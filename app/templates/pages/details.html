@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ tool.name }} - Free AI Finder{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <img src="{{ tool.image_url }}" class="card-img-top" alt="{{ tool.name }}">
+                <div class="card-body">
+                    <h1 class="card-title">{{ tool.name }}</h1>
+                    <p class="card-text">{{ tool.description }}</p>
+                    <h3>Pros:</h3>
+                    <p>{{ tool.pros }}</p>
+                    <h3>Cons:</h3>
+                    <p>{{ tool.cons }}</p>
+                    <p><strong>Category:</strong> {{ tool.category }}</p>
+                    <a href="{{ tool.website }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Website</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
