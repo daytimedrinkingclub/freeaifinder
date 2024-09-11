@@ -7,4 +7,7 @@ class ToolSubmissionForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     website = StringField('Website URL', validators=[DataRequired(), URL()])  # Changed from 'url' to 'website'
     category = SelectField('Category', choices=[('productivity', 'Productivity'), ('development', 'Development'), ('design', 'Design'), ('other', 'Other')])
+    image_url = StringField('Image URL', validators=[DataRequired(), URL()])
+    pros = TextAreaField('Pros', validators=[DataRequired()])
+    cons = TextAreaField('Cons', validators=[DataRequired()])
     submit = SubmitField('Submit Tool')

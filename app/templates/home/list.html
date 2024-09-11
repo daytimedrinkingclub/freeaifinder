@@ -1,22 +1,76 @@
-<div class="container mt-4">
+<style>
+    .category-nav {
+        background-color: #fff;
+        padding: 1rem 0;
+        margin-bottom: 2rem;
+    }
+    .category-list {
+        display: flex;
+        justify-content: center;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    .category-pill {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        margin: 0 0.5rem;
+        background-color: var(--light-gray);
+        border-radius: 2rem;
+        text-decoration: none;
+        color: var(--text-color);
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .category-pill:hover, .category-pill.active {
+        background-color: var(--primary-color);
+        color: #fff;
+    }
+    .tool-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+    .tool-card:hover {
+        transform: translateY(-5px);
+    }
+    .tool-card img {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        height: 200px;
+        object-fit: cover;
+    }
+</style>
+
+<nav class="category-nav">
+    <div class="container">
+        <ul class="category-list">
+            <li><a href="#" class="category-pill active">All</a></li>
+            <li><a href="#" class="category-pill">Text</a></li>
+            <li><a href="#" class="category-pill">Image</a></li>
+            <li><a href="#" class="category-pill">Audio</a></li>
+            <li><a href="#" class="category-pill">Video</a></li>
+            <li><a href="#" class="category-pill">Productivity</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for tool in tools %}
         <div class="col">
-            <div class="card h-100">
+            <div class="card h-100 tool-card">
                 <img src="{{ tool.image_url }}" class="card-img-top" alt="{{ tool.name }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ tool.name }}</h5>
                     <p class="card-text">{{ tool.description }}</p>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer bg-transparent border-top-0">
                     <a href="{{ url_for('main.tool_details', tool_id=tool.id) }}" class="btn btn-primary">Learn More</a>
                     <a href="{{ tool.website }}" class="btn btn-outline-primary" target="_blank" rel="noopener noreferrer">Try Now</a>
                 </div>
             </div>
         </div>
         {% endfor %}
-    </div>
-    <div class="text-center mt-4">
-        <a href="{{ url_for('main.submit_tool') }}" class="btn btn-outline-primary">Share Your Tool</a>
     </div>
 </div>

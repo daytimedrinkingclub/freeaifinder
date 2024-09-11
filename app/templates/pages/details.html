@@ -2,21 +2,53 @@
 
 {% block title %}{{ tool.name }} - Free AI Finder{% endblock %}
 
+{% block extra_css %}
+<style>
+    .tool-header {
+        background: linear-gradient(135deg, var(--primary-color), #7cb9e8);
+        color: #fff;
+        padding: 3rem 0;
+    }
+    .tool-image {
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
 {% block content %}
+<header class="tool-header">
+    <div class="container">
+        <h1>{{ tool.name }}</h1>
+    </div>
+</header>
+
 <div class="container mt-4">
     <div class="row">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-8">
+            <img src="{{ tool.image_url }}" alt="{{ tool.name }}" class="tool-image mb-4">
+            <h2>Description</h2>
+            <p>{{ tool.description }}</p>
+            <h3>Pros:</h3>
+            <ul>
+                {% for pro in tool.pros %}
+                <li>{{ pro }}</li>
+                {% endfor %}
+            </ul>
+            <h3>Cons:</h3>
+            <ul>
+                {% for con in tool.cons %}
+                <li>{{ con }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4">
             <div class="card">
-                <img src="{{ tool.image_url }}" class="card-img-top" alt="{{ tool.name }}">
                 <div class="card-body">
-                    <h1 class="card-title">{{ tool.name }}</h1>
-                    <p class="card-text">{{ tool.description }}</p>
-                    <h3>Pros:</h3>
-                    <p>{{ tool.pros }}</p>
-                    <h3>Cons:</h3>
-                    <p>{{ tool.cons }}</p>
+                    <h5 class="card-title">Quick Info</h5>
                     <p><strong>Category:</strong> {{ tool.category }}</p>
-                    <a href="{{ tool.website }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Visit Website</a>
+                    <a href="{{ tool.website }}" class="btn btn-primary btn-block" target="_blank" rel="noopener noreferrer">Visit Website</a>
                 </div>
             </div>
         </div>

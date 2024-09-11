@@ -17,10 +17,16 @@ app/
     static/
     templates/
         home/
-            index.html
+            hero.html
+            list.html
         pages/
             details.html
             about.html
+            submit_tool.html
+        components/
+            header.html
+            footer.html
+        base.html
     __init__.py
     models.py
 

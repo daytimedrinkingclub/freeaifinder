@@ -1,16 +1,35 @@
 {% extends 'base.html' %}
 
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, var(--primary-color), #7cb9e8);
+        color: #fff;
+        padding: 4rem 0;
+        text-align: center;
+    }
+    .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    .hero p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
+<header class="hero">
     <div class="container">
-        <div class="rules-showcase">
-            <h2>Our Game Theory Approach:</h2>
-            <ul>
-                <li>We promote only the best AI tools</li>
-                <li>All tools are thoroughly vetted by our experts</li>
-                <li>Every tool we showcase is completely free</li>
-                <li>Our commitment: These tools will remain free forever</li>
-            </ul>
-        </div>
+        <h1>Discover Free AI Tools</h1>
+        <p>Explore our curated collection of the best free AI tools to supercharge your productivity and creativity.</p>
+        <a href="#tools" class="btn btn-light btn-lg">Get Started</a>
     </div>
+</header>
+
+<section id="tools" class="py-5">
     {% include 'home/list.html' %}
+</section>
 {% endblock %}

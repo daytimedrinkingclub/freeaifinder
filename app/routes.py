@@ -25,3 +25,7 @@ def tool_details(tool_id):
         abort(404)  # Tool not found
     return render_template('pages/details.html', tool=tool)
 
+
+@bp.route('/about')
+def about():
+    return render_template('pages/about.html')
