@@ -1,20 +1,23 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate  # Add this import
+from flask_bootstrap import Bootstrap
+from supabase import create_client, Client
 from config import Config
+import os
 
-db = SQLAlchemy()
-migrate = Migrate()
+bootstrap = Bootstrap()
 
-def create_app():
+def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+    app.config['WTF_CSRF_SECRET_KEY'] = os.environ.get('SECRET_KEY')
+    app.config.from_object(config_class)
     
-    db.init_app(app)
-    migrate.init_app(app, db)  # Initialize migrate
-    
-    # Import and register blueprints here, after the app is created
+    bootstrap.init_app(app)
+
+    # Initialize Supabase client
+    app.supabase: Client = create_client(app.config['SUPABASE_URL'], app.config['SUPABASE_KEY'])
+
     from app.routes import bp as main_bp
     app.register_blueprint(main_bp)
-
+    
     return app

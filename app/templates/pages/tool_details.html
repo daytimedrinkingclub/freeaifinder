@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow-lg p-8">
+    <div class="flex justify-between items-start mb-6">
+        <div class="flex flex-col">
+            <div class="flex items-center mb-2">
+                {% if tool.logo_public_url %}
+                <img src="{{ tool.logo_public_url }}" alt="{{ tool.name }} logo" class="w-16 h-16 rounded-lg mr-4">
+                {% else %}
+                <img src="https://img.logo.dev/{{ tool.link.split('//')[1].split('/')[0] }}?token={{ config['LOGO_DEV_PUBLIC_KEY'] }}"
+                    alt="{{ tool.name }} logo" class="w-16 h-16 rounded-lg mr-4">
+                {% endif %}
+                <h1 class="text-4xl font-bold text-blue-800">{{ tool.name }}</h1>
+            </div>
+        </div>
+        <div class="flex flex-col items-end">
+            <a href="{{ tool.link }}"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+                target="_blank" rel="noopener noreferrer">
+                Try {{ tool.name }}
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+            </a>
+        </div>
+    </div>
+    <span
+        class="inline-block px-3 py-1 rounded-full text-sm font-semibold
+    {{ tool.ToolCategory.meta.tailwindClasses if tool.ToolCategory and tool.ToolCategory.meta and tool.ToolCategory.meta.tailwindClasses else 'bg-gray-200 text-gray-800' }}">
+        {{ tool.ToolCategory.name if tool.ToolCategory else 'Uncategorized' }}
+    </span>
+    <div class="my-6">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-2">Description</h2>
+        <p class="text-gray-600">{{ tool.description }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div class="bg-blue-100 p-6 rounded-lg">
+            <h2 class="text-2xl font-semibold text-blue-800 mb-4">Free Features</h2>
+            <p class="text-gray-700">{{ tool.free_features or 'No free features listed.' }}</p>
+        </div>
+        <div class="bg-green-100 p-6 rounded-lg">
+            <h2 class="text-2xl font-semibold text-green-800 mb-4">Paid Features</h2>
+            <p class="text-gray-700">{{ tool.paid_features or 'No paid features listed.' }}</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-yellow-100 p-6 rounded-lg">
+            <h2 class="text-2xl font-semibold text-yellow-800 mb-4">Why Pay?</h2>
+            <p class="text-gray-700">{{ tool.why_pay or 'No information available.' }}</p>
+        </div>
+        <div class="bg-purple-100 p-6 rounded-lg">
+            <h2 class="text-2xl font-semibold text-purple-800 mb-4">When to Pay?</h2>
+            <p class="text-gray-700">{{ tool.when_to_pay or 'No information available.' }}</p>
+        </div>
+        <div class="bg-red-100 p-6 rounded-lg">
+            <h2 class="text-2xl font-semibold text-red-800 mb-4">Why Not Pay?</h2>
+            <p class="text-gray-700">{{ tool.why_not_pay or 'No information available.' }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
