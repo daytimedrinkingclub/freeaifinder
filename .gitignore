@@ -1,0 +1,5 @@
+myvenv/
+*.pyc
+__pycache__
+app/__pycache__
+.cursorignore
