@@ -3,3 +3,4 @@ myvenv/
 __pycache__
 app/__pycache__
 .cursorignore
+.env

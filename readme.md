@@ -12,4 +12,18 @@
 
 ### Folder structure
 
+```bash
+app/
+    static/
+    templates/
+        home/
+            index.html
+        pages/
+            details.html
+            about.html
+    __init__.py
+    models.py
+
+
+```
 
