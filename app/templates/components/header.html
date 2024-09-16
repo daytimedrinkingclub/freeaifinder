@@ -9,8 +9,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item me-2">
+                        <a class="nav-link text-black btn btn-outline-dark" href="{{ url_for('main.index') }}">Home</a>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
+                        <a class="nav-link text-black btn btn-outline-dark" href="{{ url_for('main.submit_tool') }}">Submit a Tool</a>
                     </li>
                     <!-- Add more navigation items here -->
                 </ul>

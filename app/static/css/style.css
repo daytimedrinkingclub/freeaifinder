@@ -71,3 +71,35 @@ footer {
 .tool-item:last-child {
     border-bottom: none;
 }
+
+/* Header styles */
+.navbar-nav .nav-item .nav-link {
+    padding: 0.5rem 1rem;
+    border: 1px solid #343a40;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    background-color: #343a40;
+    color: white !important;
+}
+
+/* Add some spacing between nav items */
+.navbar-nav .nav-item {
+    margin-left: 0.5rem;
+}
+
+/* Ensure the navbar-toggler (mobile menu button) has the right color */
+.navbar-toggler {
+    border-color: #343a40;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.55)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Ensure text is white when button is hovered */
+.navbar-nav .nav-item .nav-link:hover {
+    color: white !important;
+}
