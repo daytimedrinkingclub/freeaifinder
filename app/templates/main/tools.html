@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="yellow-pages-header">Free AI Tools Directory</h1>
+
+<div id="tools-container">
+    {% if tools %}
+        <div class="row">
+        {% for tool in tools %}
+            <div class="col-12 tool-item">
+                {% include 'components/tool_card.html' %}
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">No tools found.</div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Your search functionality JavaScript here
+</script>
+{% endblock %}

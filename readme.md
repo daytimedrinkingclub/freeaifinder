@@ -1,35 +1,34 @@
-# Freeaifinder
+# Free AI Finder
 
-- The listing of all free and useful AI tools
+- A directory of all free AI tools
 
 ## Tech Stack
 
-- Python Flask with jinja
-- Bootstrap css
-- Heroku Postgres
-- Heroku Deployment
+- Python Flask
+- Jinja2 Templating
+- Bootsrap CSS framework
+- Supabase Self Hosted Database
 
 
 ### Folder structure
-
 ```bash
-app/
-    static/
-    templates/
-        home/
-            hero.html
-            list.html
-        pages/
-            details.html
-            about.html
-            submit_tool.html
-        components/
-            header.html
-            footer.html
-        base.html
-    __init__.py
-    models.py
-
-
+- freeaifinder/
+  - app/
+    - static/
+      - css/
+        - style.css
+      - js/
+        - main.js
+    - templates/
+      - tools.html
+      - base.html
+    - __init__.py
+    - routes/
+      - __init__.py
+      - main.py
+  - .env
+  - requirements.txt
+  - readme.md
+  - config.py
+  - run.py
 ```
-
