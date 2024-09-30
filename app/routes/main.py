@@ -6,9 +6,16 @@ bp = Blueprint('main', __name__)
 @bp.route('/')
 def index():
     try:
-        response = supabase.table('tool').select("*").execute()
+        page = request.args.get('page', 1, type=int)
+        per_page = 30
+        
+        response = supabase.table('tool').select("*").range(
+            (page - 1) * per_page, 
+            page * per_page - 1
+        ).execute()
+        
         tools = response.data
-        return render_template('main/tools.html', tools=tools)
+        return render_template('main/tools.html', tools=tools, page=page)
     except Exception as e:
         return f"Error: {str(e)}", 500
     

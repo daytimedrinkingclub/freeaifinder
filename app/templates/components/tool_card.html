@@ -1,9 +1,18 @@
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">{{ tool.name }}</h5>
-        <p class="card-text">{{ tool.description }}</p>
-        <p class="card-text"><small>Category: {{ tool.category }}</small></p>
-        <a href="{{ tool.link }}" class="btn btn-primary" target="_blank">
+<div class="card h-100" itemscope itemtype="https://schema.org/SoftwareApplication">
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title" itemprop="name">{{ tool.name }}</h5>
+        <p class="card-text flex-grow-1" itemprop="description">
+            {{ tool.description|truncate(150, true, '...') }}
+        </p>
+        <p class="card-text"><small itemprop="applicationCategory">Category: {{ tool.category }}</small></p>
+        {% if tool.tags %}
+            <div class="mb-2">
+                {% for tag in tool.tags.split(',')[:3] %}
+                    <span class="badge bg-secondary me-1">{{ tag.strip() }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <a href="{{ tool.link }}" class="btn btn-primary mt-auto" target="_blank" itemprop="url">
             <i class="fas fa-external-link-alt me-2"></i>Visit Tool
         </a>
     </div>

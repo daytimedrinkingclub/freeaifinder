@@ -1,25 +1,70 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="yellow-pages-header">Free AI Tools Directory</h1>
+<div itemscope itemtype="https://schema.org/ItemList">
+    <h1 class="yellow-pages-header" itemprop="name">Free AI Tools Directory</h1>
 
-<div id="tools-container">
-    {% if tools %}
-        <div class="row">
-        {% for tool in tools %}
-            <div class="col-12 tool-item">
-                {% include 'components/tool_card.html' %}
+    <div id="tools-container">
+        {% if tools %}
+            <div class="row mb-3">
+                {% for category in categories %}
+                    <div class="col-auto mb-2">
+                        <span class="badge bg-primary rounded-pill">{{ category }}</span>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-        </div>
-    {% else %}
-        <div class="alert alert-info">No tools found.</div>
-    {% endif %}
+            <div class="row" id="tools-row">
+            {% for tool in tools %}
+                <div class="col-12 col-md-6 tool-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <meta itemprop="position" content="{{ loop.index }}" />
+                    {% include 'components/tool_card.html' %}
+                </div>
+            {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">No tools found.</div>
+        {% endif %}
+    </div>
+    <div id="loading" style="display: none;">Loading more tools...</div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-// Your search functionality JavaScript here
+let currentPage = {{ page }};
+let loading = false;
+
+window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !loading) {
+        loadMoreTools();
+    }
+});
+
+function loadMoreTools() {
+    loading = true;
+    currentPage++;
+    document.getElementById('loading').style.display = 'block';
+
+    fetch(`/?page=${currentPage}`)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newTools = doc.querySelectorAll('#tools-row .tool-item');
+            
+            const toolsRow = document.getElementById('tools-row');
+            newTools.forEach(tool => {
+                toolsRow.appendChild(tool);
+            });
+
+            loading = false;
+            document.getElementById('loading').style.display = 'none';
+        })
+        .catch(error => {
+            console.error('Error loading more tools:', error);
+            loading = false;
+            document.getElementById('loading').style.display = 'none';
+        });
+}
 </script>
 {% endblock %}
