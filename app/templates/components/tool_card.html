@@ -12,7 +12,11 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <a href="{{ tool.link }}" class="btn btn-primary mt-auto" target="_blank" itemprop="url">
+        <a href="{{ tool.link|add_utm_params(source='free_ai_finder', medium='directory', campaign='tool_listing', content=tool.name|slugify) }}" 
+           class="btn btn-primary mt-auto" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           itemprop="url">
             <i class="fas fa-external-link-alt me-2"></i>Visit Tool
         </a>
     </div>

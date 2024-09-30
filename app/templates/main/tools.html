@@ -3,6 +3,30 @@
 {% block title %}Free AI Tools Directory - Find the Best AI Tools | Free AI Finder{% endblock %}
 {% block meta_description %}Discover a comprehensive directory of free AI tools for various applications. Browse by category, read descriptions, and find the perfect AI solution for your needs.{% endblock %}
 
+{% block extra_css %}
+<style>
+    .categories-scroll {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* For Firefox */
+        -ms-overflow-style: none; /* For Internet Explorer and Edge */
+        padding: 10px 0;
+    }
+
+    .categories-scroll::-webkit-scrollbar {
+        display: none; /* For Chrome, Safari, and Opera */
+    }
+
+    .categories-scroll .badge {
+        display: inline-block;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div itemscope itemtype="https://schema.org/ItemList">
     <h1 class="yellow-pages-header" itemprop="name">Free AI Tools Directory</h1>
@@ -10,14 +34,10 @@
 
     <div id="tools-container">
         {% if tools %}
-            <nav aria-label="AI Tool Categories">
-                <ul class="list-inline mb-3">
-                    {% for category in categories %}
-                        <li class="list-inline-item mb-2">
-                            <a href="#{{ category|slugify }}" class="badge bg-primary rounded-pill text-decoration-none">{{ category }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
+            <nav aria-label="AI Tool Categories" class="categories-scroll">
+                {% for category in categories %}
+                    <a href="#{{ category|slugify }}" class="badge bg-primary rounded-pill text-decoration-none">{{ category }}</a>
+                {% endfor %}
             </nav>
             <div class="row" id="tools-row">
             {% for tool in tools %}

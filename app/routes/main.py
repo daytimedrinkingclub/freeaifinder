@@ -1,7 +1,19 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from app import supabase
+from urllib.parse import urlparse, urlunparse, parse_qsl, urlencode
 
 bp = Blueprint('main', __name__)
+
+def add_utm_params(url, **params):
+    parsed_url = urlparse(url)
+    query_params = dict(parse_qsl(parsed_url.query))
+    utm_params = {f"utm_{k}": v for k, v in params.items()}
+    query_params.update(utm_params)
+    new_query = urlencode(query_params)
+    return urlunparse(
+        (parsed_url.scheme, parsed_url.netloc, parsed_url.path, 
+         parsed_url.params, new_query, parsed_url.fragment)
+    )
 
 @bp.route('/')
 def index():
@@ -9,32 +21,49 @@ def index():
         page = request.args.get('page', 1, type=int)
         per_page = 30
         
-        response = supabase.table('tool').select("*").range(
+        response = supabase.table('tool').select("*").order('created_at', desc=True).range(
             (page - 1) * per_page, 
             page * per_page - 1
         ).execute()
         
         tools = response.data
-        return render_template('main/tools.html', tools=tools, page=page)
+        
+        # Fetch all unique categories for the category navigation
+        categories_response = supabase.table('tool').select('category').execute()
+        categories = list(set(tool['category'] for tool in categories_response.data))
+        
+        # Add UTM parameters to tool links
+        for tool in tools:
+            tool['link'] = add_utm_params(tool['link'], 
+                                          source='free_ai_finder', 
+                                          medium='directory', 
+                                          campaign='tool_listing', 
+                                          content=tool['name'].lower().replace(' ', '-'))
+        
+        return render_template('main/tools.html', 
+                               tools=tools, 
+                               page=page, 
+                               categories=categories,
+                               meta_description="Explore our curated list of free AI tools to enhance your productivity and creativity.")
     except Exception as e:
-        return f"Error: {str(e)}", 500
-    
+        current_app.logger.error(f"Error fetching tools: {str(e)}")
+        return render_template('error.html', error_message="An error occurred while fetching the tools. Please try again later."), 500
+
 @bp.route('/submit-tool', methods=['GET', 'POST'])
 def submit_tool():
     if request.method == 'POST':
-        # Process the form submission
         tool_name = request.form['tool_name']
         description = request.form['description']
         website = request.form['website']
         category = request.form['category']
-        
-        # Insert the new tool into the Supabase submitted_tools table
+        creator_email = request.form['creator_email']
         try:
             data, count = supabase.table('submitted_tools').insert({
                 "name": tool_name,
                 "description": description,
                 "link": website,
-                "category": category
+                "category": category,
+                "email": creator_email
             }).execute()
             
             if count == 1:
@@ -47,4 +76,5 @@ def submit_tool():
         
         return redirect(url_for('main.index'))
     
-    return render_template('main/submit_tool.html')
+    return render_template('main/submit_tool.html',
+                           meta_description="Contribute to our free AI tools directory by submitting your favorite AI tool. Help others discover useful AI solutions.")
