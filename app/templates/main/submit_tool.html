@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Submit a Tool - Free AI Finder{% endblock %}
+{% block title %}Submit a Free AI Tool - Help Grow Our Directory | Free AI Finder{% endblock %}
+{% block meta_description %}Contribute to our free AI tools directory by submitting your favorite AI tool. Help others discover useful AI solutions and grow our community.{% endblock %}
 
 {% block content %}
 <div itemscope itemtype="https://schema.org/WebPage">
     <h1 class="yellow-pages-header" itemprop="name">Submit a Free AI Tool</h1>
+    <p class="lead" itemprop="description">Help our community grow by sharing your favorite free AI tools. Fill out the form below to submit a new tool to our directory.</p>
 
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <form method="POST" action="{{ url_for('main.submit_tool') }}" itemprop="potentialAction" itemscope itemtype="https://schema.org/Action">
+            <form method="POST" action="{{ url_for('main.submit_tool') }}" itemprop="potentialAction" itemscope itemtype="https://schema.org/CreateAction">
                 <meta itemprop="name" content="Submit AI Tool">
                 <div class="mb-3">
                     <label for="tool_name" class="form-label">Tool Name</label>

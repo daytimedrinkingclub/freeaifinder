@@ -1,18 +1,24 @@
 {% extends "base.html" %}
 
+{% block title %}Free AI Tools Directory - Find the Best AI Tools | Free AI Finder{% endblock %}
+{% block meta_description %}Discover a comprehensive directory of free AI tools for various applications. Browse by category, read descriptions, and find the perfect AI solution for your needs.{% endblock %}
+
 {% block content %}
 <div itemscope itemtype="https://schema.org/ItemList">
     <h1 class="yellow-pages-header" itemprop="name">Free AI Tools Directory</h1>
+    <p class="lead" itemprop="description">Explore our curated list of free AI tools to enhance your productivity and creativity.</p>
 
     <div id="tools-container">
         {% if tools %}
-            <div class="row mb-3">
-                {% for category in categories %}
-                    <div class="col-auto mb-2">
-                        <span class="badge bg-primary rounded-pill">{{ category }}</span>
-                    </div>
-                {% endfor %}
-            </div>
+            <nav aria-label="AI Tool Categories">
+                <ul class="list-inline mb-3">
+                    {% for category in categories %}
+                        <li class="list-inline-item mb-2">
+                            <a href="#{{ category|slugify }}" class="badge bg-primary rounded-pill text-decoration-none">{{ category }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
             <div class="row" id="tools-row">
             {% for tool in tools %}
                 <div class="col-12 col-md-6 tool-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
@@ -22,10 +28,14 @@
             {% endfor %}
             </div>
         {% else %}
-            <div class="alert alert-info">No tools found.</div>
+            <div class="alert alert-info">No tools found. Check back soon for updates!</div>
         {% endif %}
     </div>
-    <div id="loading" style="display: none;">Loading more tools...</div>
+    <div id="loading" class="text-center" style="display: none;">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading more tools...</span>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
