@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool.name }} - Free AI Tool Details | Free AI Finder{% endblock %}
+{% block meta_description %}Learn more about {{ tool.name }}, a free AI tool for {{ tool.category }}. Discover its features, use cases, and how it can benefit you.{% endblock %}
+
+{% block content %}
+<div itemscope itemtype="https://schema.org/SoftwareApplication" class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="yellow-pages-header mb-3" itemprop="name">{{ tool.name }}</h1>
+            <p class="lead" itemprop="description">{{ tool.description }}</p>
+            
+            <div class="d-flex align-items-center mb-3">
+                <span class="me-2">Category:</span>
+                <span class="badge bg-primary" itemprop="applicationCategory">{{ tool.category }}</span>
+            </div>
+
+            {% if tool.tags %}
+                <div class="mb-3">
+                    {% for tag in tool.tags.split(',') %}
+                        <span class="badge bg-secondary me-1">{{ tag.strip() }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="mb-4">
+                <h3>About {{ tool.name }}</h3>
+                <p>{{ tool.detailed_description }}</p>
+            </div>
+
+            {% if tool.key_features %}
+            <div class="mb-4">
+                <h3>Key Features</h3>
+                <ul>
+                    {% for feature in tool.key_features.split('\n') %}
+                        <li>{{ feature }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if tool.use_cases %}
+            <div class="mb-4">
+                <h3>Use Cases</h3>
+                <ul>
+                    {% for use_case in tool.use_cases.split('\n') %}
+                        <li>{{ use_case }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if tool.pros or tool.cons %}
+            <div class="mb-4">
+                <h3>Pros and Cons</h3>
+                <div class="row">
+                    {% if tool.pros %}
+                    <div class="col-md-6">
+                        <h4>Pros</h4>
+                        <ul>
+                            {% for pro in tool.pros.split('\n') %}
+                                <li>{{ pro }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    {% if tool.cons %}
+                    <div class="col-md-6">
+                        <h4>Cons</h4>
+                        <ul>
+                            {% for con in tool.cons.split('\n') %}
+                                <li>{{ con }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <img src="{{ tool.logo_url }}" alt="{{ tool.name }} logo" class="img-fluid" style="max-height: 100px;">
+                    </div>
+                    <a href="{{ tool.link }}" 
+                       class="btn btn-primary btn-lg w-100 mb-3" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       itemprop="url">
+                        <i class="fas fa-external-link-alt me-2"></i>Visit Website
+                    </a>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Category:</span>
+                        <span class="badge bg-secondary">{{ tool.category }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Created:</span>
+                        <span>{{ tool.created_at }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -12,12 +12,17 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <a href="{{ tool.link|add_utm_params(source='free_ai_finder', medium='directory', campaign='tool_listing', content=tool.name|slugify) }}" 
-           class="btn btn-primary mt-auto" 
-           target="_blank" 
-           rel="noopener noreferrer" 
-           itemprop="url">
-            <i class="fas fa-external-link-alt me-2"></i>Visit Tool
-        </a>
+        <div class="mt-auto d-flex justify-content-between align-items-center">
+            <a href="{{ url_for('main.tool_details', tool_id=tool.id) }}" class="btn btn-outline-secondary btn-sm">
+                Know More
+            </a>
+            <a href="{{ tool.link|add_utm_params(source='free_ai_finder', medium='directory', campaign='tool_listing', content=tool.name|slugify) }}" 
+               class="btn btn-primary btn-sm" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               itemprop="url">
+                <i class="fas fa-external-link-alt me-2"></i>Visit Tool
+            </a>
+        </div>
     </div>
 </div>

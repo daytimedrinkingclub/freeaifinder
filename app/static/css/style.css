@@ -179,3 +179,55 @@ footer {
     padding: 20px;
     font-style: italic;
 }
+
+.categories-scroll-container {
+    position: relative;
+    padding: 0 40px;
+}
+
+.categories-scroll {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+    padding: 15px 0;
+}
+
+.categories-scroll::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}
+
+.categories-scroll .badge {
+    display: inline-block;
+    margin-right: 15px;
+    flex-shrink: 0;
+    font-size: 1rem;
+    padding: 8px 16px;
+}
+
+.scroll-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.scroll-left {
+    left: 0;
+}
+
+.scroll-right {
+    right: 0;
+}

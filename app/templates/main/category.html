@@ -1,12 +1,73 @@
 {% extends "base.html" %}
 
-{% block title %}Free AI Tools Directory - Find the Best AI Tools | Free AI Finder{% endblock %}
-{% block meta_description %}Discover a comprehensive directory of free AI tools for various applications. Browse by category, read descriptions, and find the perfect AI solution for your needs.{% endblock %}
+{% block title %}{{ current_category }} - Free AI Tools | Free AI Finder{% endblock %}
+{% block meta_description %}Explore our curated list of free AI tools in the {{ current_category }} category. Enhance your productivity and creativity with the best AI solutions available.{% endblock %}
+
+{% block extra_css %}
+<style>
+    .categories-scroll-container {
+        position: relative;
+        padding: 0 40px;
+    }
+
+    .categories-scroll {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* For Firefox */
+        -ms-overflow-style: none; /* For Internet Explorer and Edge */
+        padding: 15px 0;
+    }
+
+    .categories-scroll::-webkit-scrollbar {
+        display: none; /* For Chrome, Safari, and Opera */
+    }
+
+    .categories-scroll .badge {
+        display: inline-block;
+        margin-right: 15px;
+        flex-shrink: 0;
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+
+    .scroll-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .scroll-left {
+        left: 0;
+    }
+
+    .scroll-right {
+        right: 0;
+    }
+
+    /* Highlight the current category */
+    .current-category {
+        background-color: bg-secondary;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 <div itemscope itemtype="https://schema.org/ItemList">
-    <h1 class="yellow-pages-header" itemprop="name">Free AI Tools Directory</h1>
-    <p class="lead" itemprop="description">Explore our curated list of free AI tools to enhance your productivity and creativity.</p>
+    <h1 class="yellow-pages-header" itemprop="name">{{ current_category }} AI Tools</h1>
+    <p class="lead" itemprop="description">Explore our curated list of free AI tools in the {{ current_category }} category to enhance your productivity and creativity.</p>
 
     <div id="tools-container">
         {% if tools %}
@@ -14,7 +75,15 @@
                 <button class="scroll-arrow scroll-left" onclick="scrollCategories('left')">&#10094;</button>
                 <nav aria-label="AI Tool Categories" class="categories-scroll">
                     {% for category in categories %}
-                        <a href="{{ url_for('main.category', category_name=category) }}" class="badge bg-primary rounded-pill text-decoration-none">{{ category }}</a>
+                        <a href="{{ url_for('main.category', category_name=category) }}" class="badge 
+                            {% if category == current_category %}
+                                bg-secondary
+                            {% else %}
+                                bg-primary
+                            {% endif %}
+                            rounded-pill text-decoration-none">
+                            {{ category }}
+                        </a>
                     {% endfor %}
                 </nav>
                 <button class="scroll-arrow scroll-right" onclick="scrollCategories('right')">&#10095;</button>
@@ -28,7 +97,7 @@
             {% endfor %}
             </div>
         {% else %}
-            <div class="alert alert-info">No tools found. Check back soon for updates!</div>
+            <div class="alert alert-info">No tools found in this category. Check back soon for updates!</div>
         {% endif %}
     </div>
     <div id="loading" class="text-center" style="display: none;">
@@ -55,7 +124,7 @@ function loadMoreTools() {
     currentPage++;
     document.getElementById('loading').style.display = 'block';
 
-    fetch(`/?page=${currentPage}`)
+    fetch(`{{ url_for('main.category', category_name=current_category) }}?page=${currentPage}`)
         .then(response => response.text())
         .then(html => {
             const parser = new DOMParser();

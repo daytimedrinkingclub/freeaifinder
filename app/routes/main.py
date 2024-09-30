@@ -78,3 +78,60 @@ def submit_tool():
     
     return render_template('main/submit_tool.html',
                            meta_description="Contribute to our free AI tools directory by submitting your favorite AI tool. Help others discover useful AI solutions.")
+
+@bp.route('/tool/<int:tool_id>')
+def tool_details(tool_id):
+    try:
+        response = supabase.table('tool').select("*").eq('id', tool_id).execute()
+        
+        if not response.data:
+            return render_template('error.html', error_message="Tool not found."), 404
+        
+        tool = response.data[0]
+        
+        # Add UTM parameters to tool link
+        tool['link'] = add_utm_params(tool['link'], 
+                                      source='free_ai_finder', 
+                                      medium='tool_details', 
+                                      campaign='tool_page', 
+                                      content=tool['name'].lower().replace(' ', '-'))
+        
+        return render_template('main/tool_details.html', tool=tool)
+    except Exception as e:
+        current_app.logger.error(f"Error fetching tool details: {str(e)}")
+        return render_template('error.html', error_message="An error occurred while fetching the tool details. Please try again later."), 500
+    
+@bp.route('/category/<string:category_name>')
+def category(category_name):
+    try:
+        page = request.args.get('page', 1, type=int)
+        per_page = 30
+        
+        response = supabase.table('tool').select("*").eq('category', category_name).order('created_at', desc=True).range(
+            (page - 1) * per_page, 
+            page * per_page - 1
+        ).execute()
+        
+        tools = response.data
+        
+        # Fetch all unique categories for the category navigation
+        categories_response = supabase.table('tool').select('category').execute()
+        categories = list(set(tool['category'] for tool in categories_response.data))
+        
+        # Add UTM parameters to tool links
+        for tool in tools:
+            tool['link'] = add_utm_params(tool['link'], 
+                                          source='free_ai_finder', 
+                                          medium='category_page', 
+                                          campaign='tool_listing', 
+                                          content=tool['name'].lower().replace(' ', '-'))
+        
+        return render_template('main/category.html', 
+                               tools=tools, 
+                               page=page, 
+                               categories=categories,
+                               current_category=category_name,
+                               meta_description=f"Explore our curated list of free AI tools in the {category_name} category.")
+    except Exception as e:
+        current_app.logger.error(f"Error fetching tools for category {category_name}: {str(e)}")
+        return render_template('error.html', error_message="An error occurred while fetching the tools. Please try again later."), 500
